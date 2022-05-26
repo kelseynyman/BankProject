@@ -1,21 +1,22 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['emploggedin'])) {
-    header('Location: ../Pages/login.php');
+if (!isset($_SESSION['loggedin'])) {
+    header('Location: login.php');
     exit;
 }
 
 if (!isset($_POST['updateInfo']) && !isset($_POST['updatePWD'])) {
-    header('Location: ../Pages/dashboard.php');
+    header('Location: ../Pages/edit-info.php');
     exit;
 }
 
-$customer = $_POST['customer'];
+
+$customer = $_SESSION['customer'];
 include 'db.php';
 
-
 if (isset($_POST['updateInfo'])) {
+
     $fname = trim(filter_input(INPUT_POST, 'fname', FILTER_SANITIZE_ADD_SLASHES));
     $lname = trim(filter_input(INPUT_POST, 'lname', FILTER_SANITIZE_ADD_SLASHES));
     $uname = trim(filter_input(INPUT_POST, 'uname', FILTER_SANITIZE_ADD_SLASHES));
@@ -28,6 +29,7 @@ if (isset($_POST['updateInfo'])) {
 }
 
 if (isset($_POST['updatePWD'])) {
+
     $currPwd = filter_input(INPUT_POST, 'currPwd', FILTER_SANITIZE_ADD_SLASHES);
     $newPwd = filter_input(INPUT_POST, 'newPwd', FILTER_SANITIZE_ADD_SLASHES);
 
@@ -42,5 +44,4 @@ if (isset($_POST['updatePWD'])) {
     }
     exit;
 }
-
 exit;

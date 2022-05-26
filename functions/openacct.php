@@ -1,21 +1,19 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['emploggedin'])) {
-    header('Location: ../Pages/login.php');
+if (!isset($_SESSION['loggedin'])) {
+    header('Location: login.php');
     exit;
 }
 
-if (!isset($_POST['openBankAcct'])) {
-    header('Location: ../Pages/dashboard.php');
+if (!isset($_POST['openacct'])) {
+    header('Location: ../Pages/new-bankacct.php');
     exit;
 }
 
-$type = filter_input(INPUT_POST, 'type', FILTER_SANITIZE_ADD_SLASHES);
-$customer = filter_input(INPUT_POST, 'customer', FILTER_SANITIZE_NUMBER_INT);
-$deposit = filter_input(INPUT_POST, 'deposit', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+$type = trim(filter_input(INPUT_POST, 'type', FILTER_SANITIZE_ADD_SLASHES));
+$customer = $_SESSION['customer'];
 
 include 'db.php';
-
-createBankAcct($type, $deposit, $customer);
+requestBankAcct($type, $customer);
 exit;
